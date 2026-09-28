@@ -2225,6 +2225,7 @@ function wireStatic(){
 
 /* First visit: promo shows Download only. Later visits: Download + Close. */
 function initAppPromo(){
+  if (location.search.indexOf('app=1') !== -1) return; /* inside the Android app: no promo */
   var el = $('appPromo');
   if (!el) return;
   var seen = load('deenday.appPromo.v1', null);
