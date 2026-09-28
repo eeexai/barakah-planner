@@ -432,6 +432,14 @@ html[data-theme="dark"] .theme-pick button.active{background:#0e1713;color:var(-
   .stat{min-width:0}
   .stat .k{font-size:10px;letter-spacing:.3px}
   .stat .v{font-size:18px}
+  /* mobile: smaller ring so the stat boxes get room; centered text that
+     always stays inside the box */
+  .ringzone{gap:14px}
+  .ringwrap{width:112px;height:112px;flex:0 0 112px}
+  .ring{width:112px;height:112px}
+  .stat{text-align:center;padding:10px 8px}
+  .stat .k{letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stat .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
 
 /* calm for everyone: honor reduced motion */
