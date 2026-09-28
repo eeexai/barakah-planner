@@ -318,6 +318,12 @@ input:focus,select:focus{outline:2px solid var(--emerald-500);border-color:var(-
 }
 .btn:active{transform:scale(.97);filter:brightness(1.05)}
 .btn.ghost{background:var(--card-2);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.slim{width:auto;padding:9px 20px;font-size:13.5px;border-radius:12px}
+/* minimal "Manage tasks" row under Today's Tasks */
+.manage-tasks{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:14px;padding:10px 10px 10px 14px;background:var(--card-2);
+  border:1px solid var(--line);border-radius:16px}
+.manage-tasks span{font-size:13.5px;font-weight:700;color:var(--muted)}
 .btn:disabled{opacity:.6;cursor:default}
 
 /* ============ Login screen ============ */
@@ -422,6 +428,10 @@ html[data-theme="dark"] .theme-pick button.active{background:#0e1713;color:var(-
 @media (max-width:559px){
   #app,main,.view,.card,.heatmap>*{min-width:0}
   .tname,.tnote{overflow-wrap:break-word}
+  /* score-card stats: let them shrink so the row never pokes out of the card */
+  .stat{min-width:0}
+  .stat .k{font-size:10px;letter-spacing:.3px}
+  .stat .v{font-size:18px}
 }
 
 /* calm for everyone: honor reduced motion */
@@ -550,6 +560,10 @@ html[data-theme="dark"] .theme-pick button.active{background:#0e1713;color:var(-
         <div class="pbar"><div id="pbarFill" style="width:0%"></div></div>
         <div class="pbar-meta"><span id="pbarPct">0%</span><span id="pbarCount">0 of 0</span></div>
         <ul class="tasks" id="todayList"></ul>
+        <div class="manage-tasks">
+          <span>Add or delete task</span>
+          <button class="btn ghost slim" id="goManageTasks">Manage</button>
+        </div>
       </div>
     </section>
 
@@ -2169,6 +2183,7 @@ function wireStatic(){
   $('backToLogin2').addEventListener('click', function(){ showAuthForm('login'); });
   $('backToLogin3').addEventListener('click', function(){ showAuthForm('login'); });
   $('logoutBtn').addEventListener('click', doLogout);
+  $('goManageTasks').addEventListener('click', function(){ showView('tasks'); });
   document.querySelectorAll('.eyebtn').forEach(function(b){
     b.addEventListener('click', function(){
       var inp = $(b.getAttribute('data-for'));
