@@ -324,6 +324,22 @@ input:focus,select:focus{outline:2px solid var(--emerald-500);border-color:var(-
   margin-top:14px;padding:10px 10px 10px 14px;background:var(--card-2);
   border:1px solid var(--line);border-radius:16px}
 .manage-tasks span{font-size:13.5px;font-weight:700;color:var(--muted)}
+
+/* ============ App download promo banner ============ */
+.app-promo{position:sticky;top:0;z-index:60;
+  background:linear-gradient(135deg,#0b3d2e,#0e5c42);color:#fff;
+  box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.app-promo-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 14px}
+.app-promo-ic{width:26px;height:26px;stroke:#f5d67b;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;flex:0 0 26px}
+.app-promo-text{flex:1;min-width:0}
+.app-promo-text strong{display:block;font-size:13.5px}
+.app-promo-text span{font-size:11.5px;opacity:.85}
+.app-promo-dl{background:#f5d67b;color:#0b3d2e;font-weight:800;font-size:13px;
+  padding:9px 16px;border-radius:12px;text-decoration:none;white-space:nowrap}
+.app-promo-close{background:transparent;border:1px solid rgba(255,255,255,.55);color:#fff;
+  border-radius:12px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:var(--font);white-space:nowrap}
 .btn:disabled{opacity:.6;cursor:default}
 
 /* ============ Login screen ============ */
@@ -452,6 +468,19 @@ html[data-theme="dark"] .theme-pick button.active{background:#0e1713;color:var(-
 </style>
 </head>
 <body>
+
+<!-- ======== APP DOWNLOAD PROMO (first visit: Download only; later visits: Download + Close) ======== -->
+<div class="app-promo hidden" id="appPromo">
+  <div class="app-promo-inner">
+    <svg class="app-promo-ic" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 19h16"/></svg>
+    <div class="app-promo-text">
+      <strong>Get the Barakah Planner app</strong>
+      <span>Fullscreen app — no browser bar</span>
+    </div>
+    <a class="app-promo-dl" href="https://eeexai.github.io/barakah-planner/BarakahPlanner.apk">Download</a>
+    <button class="app-promo-close hidden" id="appPromoClose">Close</button>
+  </div>
+</div>
 
 <!-- ======== LOGIN (shown when Supabase is configured and no user is signed in) ======== -->
 <div id="loginView" class="loginwrap hidden">
@@ -2192,6 +2221,23 @@ function wireStatic(){
   $('backToLogin3').addEventListener('click', function(){ showAuthForm('login'); });
   $('logoutBtn').addEventListener('click', doLogout);
   $('goManageTasks').addEventListener('click', function(){ showView('tasks'); });
+  initAppPromo();
+
+/* First visit: promo shows Download only. Later visits: Download + Close. */
+function initAppPromo(){
+  var el = $('appPromo');
+  if (!el) return;
+  var seen = load('deenday.appPromo.v1', null);
+  if (!seen) {
+    $('appPromoClose').classList.add('hidden');
+    save('deenday.appPromo.v1', 'seen');
+  } else {
+    $('appPromoClose').classList.remove('hidden');
+  }
+  el.classList.remove('hidden');
+  $('appPromoClose').addEventListener('click', function(){ el.classList.add('hidden'); });
+}
+
   document.querySelectorAll('.eyebtn').forEach(function(b){
     b.addEventListener('click', function(){
       var inp = $(b.getAttribute('data-for'));
