@@ -895,10 +895,13 @@ function persistLocal(){
   save(ck('workdays.v1'), workdays);
   save(ck('plans.v1'), plans);
 }
+// Legacy fallback must ignore a stale EMPTY array ([] is truthy in JS and would
+// otherwise silently wipe the 9 defaults for any future login on this browser).
+function loadNonEmpty(key){ var v = load(key, null); return (Array.isArray(v) && v.length) ? v : null; }
 function readCache(){
   // Prefer namespaced cache; fall back to legacy keys (existing installs / first login).
-  tasks    = load(ck('tasks.v1'), null)    || load(K_TASKS, null)    || clone(DEFAULT_TASKS);
-  workDefs = load(ck('work.v1'), null)     || load(K_WORK, null)     || clone(DEFAULT_WORK);
+  tasks    = load(ck('tasks.v1'), null)    || loadNonEmpty(K_TASKS)    || clone(DEFAULT_TASKS);
+  workDefs = load(ck('work.v1'), null)     || loadNonEmpty(K_WORK)     || clone(DEFAULT_WORK);
   days     = load(ck('days.v1'), null)     || load(K_DAYS, null)     || {};
   workdays = load(ck('workdays.v1'), null) || load(K_WDAYS, null)    || {};
   plans    = load(ck('plans.v1'), null)    || load(K_PLANS, null)    || {};
