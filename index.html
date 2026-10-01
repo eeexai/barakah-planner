@@ -538,7 +538,16 @@ function taskDef(id){ return tasks.find(function(t){ return t.id===id; }); }
 var sb=null;
 async function ensureSb(){
   if(sb) return sb;
-  var mod=await import(SB_CDN);
+  var mod=null, lastErr=null;
+  var cdns=[
+    SB_CDN,
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+  ];
+  for(var i=0;i<cdns.length;i++){
+    try{ mod=await import(cdns[i]); break; }
+    catch(e){ lastErr=e; }
+  }
+  if(!mod) throw lastErr||new Error('supabase cdn unreachable');
   sb=mod.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey);
   return sb;
 }
