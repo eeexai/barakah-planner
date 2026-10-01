@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Winter Arc — Barakah Planner</title>
-<meta name="description" content="Winter Arc: 92 days of discipline. Private solo tracker.">
+<title>Winter Prime — Barakah Planner</title>
+<meta name="description" content="Winter Prime: 92 days of discipline. Private solo tracker.">
 <meta name="theme-color" content="#05070d">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Winter Arc">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2300f0ff'/%3E%3Cstop offset='1' stop-color='%237b2ff7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%2305070d'/%3E%3Cpath d='M32 10 L38 26 L54 32 L38 38 L32 54 L26 38 L10 32 L26 26 Z' fill='url(%23g)'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-title" content="Winter Prime">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gB%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2300f0ff%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%234d7cff%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a855f7%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22glB%22%20x%3D%22-60%25%22%20y%3D%22-60%25%22%20width%3D%22220%25%22%20height%3D%22220%25%22%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%20result%3D%22b%22%2F%3E%3CfeMerge%3E%3CfeMergeNode%20in%3D%22b%22%2F%3E%3CfeMergeNode%20in%3D%22SourceGraphic%22%2F%3E%3C%2FfeMerge%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%2305070d%22%2F%3E%3Cpath%20d%3D%22M32%206%20L55%2019%20L55%2045%20L32%2058%20L9%2045%20L9%2019%20Z%22%20fill%3D%22none%22%20stroke%3D%22url%28%23gB%29%22%20stroke-width%3D%222.5%22%20filter%3D%22url%28%23glB%29%22%20opacity%3D%22.9%22%2F%3E%3Cpath%20d%3D%22M32%206%20V58%20M9%2019%20L55%2045%20M55%2019%20L9%2045%22%20stroke%3D%22url%28%23gB%29%22%20stroke-width%3D%221%22%20opacity%3D%22.3%22%2F%3E%3Cpath%20d%3D%22M32%2018%20L35%2028%20L45%2032%20L35%2036%20L32%2046%20L29%2036%20L19%2032%20L29%2028%20Z%22%20fill%3D%22url%28%23gB%29%22%20filter%3D%22url%28%23glB%29%22%2F%3E%3C%2Fsvg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ================= WINTER ARC — neon design system ================= */
+/* ================= WINTER PRIME — neon design system ================= */
 :root{
   --bg:#05070d;
   --bg2:#080b14;
@@ -241,6 +241,39 @@ header.top{padding:calc(16px + env(safe-area-inset-top)) 20px 4px;display:flex;a
 .setrow input[type=time]{background:rgba(5,8,16,.6);border:1px solid var(--line);color:var(--cyan);
   border-radius:10px;padding:8px 10px;font-family:var(--disp);font-size:14px;font-weight:700;outline:none}
 .setrow input[type=time]:focus{border-color:var(--cyan)}
+.cardhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px}
+.cardhead h3{margin:0}
+.addbtn{background:linear-gradient(135deg,var(--cyan),var(--violet));border:0;color:#04121a;font-weight:800;
+  font-size:13px;padding:10px 16px;border-radius:12px;cursor:pointer;letter-spacing:.4px;white-space:nowrap}
+.addbtn:active{transform:scale(.96)}
+.trow{display:flex;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid rgba(139,152,184,.10)}
+.trow .sl{flex:1;min-width:0}
+.trow .sl b{font-size:13.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trow .sl span{font-size:11px;color:var(--dim)}
+.trow .sl span .tt{color:var(--cyan);font-weight:700}
+.ibtn{background:rgba(139,152,184,.10);border:1px solid var(--line);color:var(--txt);font-size:11px;font-weight:800;
+  padding:8px 12px;border-radius:10px;cursor:pointer;letter-spacing:.5px;white-space:nowrap}
+.ibtn:active{transform:scale(.95)}
+.ibtn.edit{color:var(--cyan);border-color:rgba(0,240,255,.3)}
+.ibtn.del{color:#ff7b8a;border-color:rgba(255,90,110,.25)}
+.ibtn.del.armed{background:rgba(255,60,90,.18);border-color:#ff5a6e;color:#fff;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.65}}
+.tform{background:rgba(5,8,16,.55);border:1px solid rgba(0,240,255,.25);border-radius:14px;padding:14px;margin:10px 0}
+.tform h4{margin:0 0 10px;font-size:14px;color:var(--cyan);letter-spacing:.4px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fgrid .full{grid-column:1/-1}
+.fld label{display:block;font-size:10.5px;color:var(--dim);margin-bottom:5px;letter-spacing:.6px;font-weight:700}
+.fld input,.fld select{width:100%;box-sizing:border-box;background:rgba(5,8,16,.7);border:1px solid var(--line);
+  color:var(--txt);border-radius:10px;padding:10px;font-size:13.5px;font-family:inherit;outline:none}
+.fld input:focus,.fld select:focus{border-color:var(--cyan)}
+.fld select option{background:#0a0f1c}
+.frow{display:flex;gap:10px;margin-top:12px}
+.savebtn{flex:1;background:linear-gradient(135deg,var(--cyan),var(--violet));border:0;color:#04121a;font-weight:800;
+  padding:12px;border-radius:12px;cursor:pointer;font-size:14px}
+.cancelbtn{background:none;border:1px solid var(--line);color:var(--dim);padding:12px 18px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:700}
+.resetlink{display:block;margin:12px auto 2px;background:none;border:0;color:var(--dim);font-size:12px;
+  text-decoration:underline;cursor:pointer;padding:8px}
+.resetlink.armed{color:#ff7b8a;text-decoration:none;font-weight:800}
 .linkbtn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:13px;text-decoration:none;
   font-weight:800;font-size:13.5px;color:var(--cyan);border:1px solid rgba(0,240,255,.35);background:rgba(0,240,255,.06)}
 .linkbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
@@ -298,7 +331,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
     <div class="lock-orb">
       <svg viewBox="0 0 24 24"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>
     </div>
-    <h1 class="lock-title">WINTER ARC</h1>
+    <h1 class="lock-title">WINTER PRIME</h1>
     <p class="lock-sub">92 days of discipline · private tracker</p>
     <div class="lock-field">
       <input type="password" id="phraseInput" placeholder="Enter your secret phrase" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -317,7 +350,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
       <svg viewBox="0 0 24 24"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>
     </div>
     <div class="headtext">
-      <div class="greet" id="greet">Winter Arc</div>
+      <div class="greet" id="greet">Winter Prime</div>
       <div class="dates"><span id="dateLine"></span></div>
       <div class="arc-pill"><span class="dot"></span><span id="arcDay">DAY 1 / 92</span></div>
     </div>
@@ -400,9 +433,13 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
   <section class="view" id="view-settings">
     <div class="sec"><h2>Settings</h2><span class="sub">Solo mode · private</span></div>
     <div class="card">
-      <h3>Task Times</h3>
-      <p class="csub">Tap a time to change your fixed schedule</p>
-      <div id="timeList"></div>
+      <div class="cardhead">
+        <div><h3>My Tasks</h3><p class="csub">Add, edit or remove — changes sync to all your devices</p></div>
+        <button class="addbtn" id="addTaskBtn">+ ADD</button>
+      </div>
+      <div id="taskList"></div>
+      <div id="taskForm"></div>
+      <button class="resetlink" id="resetTasksBtn">Reset to Winter Prime defaults</button>
     </div>
     <div class="card">
       <h3>App</h3>
@@ -421,7 +458,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
           <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>LOCK</button>
       </div>
     </div>
-    <div class="ver">WINTER ARC · v2.0 · 1 Oct – 31 Dec 2026</div>
+    <div class="ver">WINTER PRIME · v2.0 · 1 Oct – 31 Dec 2026</div>
   </section>
 
   <nav class="tabs"><div class="tabs-in">
@@ -460,7 +497,7 @@ const PHRASE_HASHES = [
 const VAULT_EMAIL = "winterarc.solo.2026@barakahplanner.app";
 const VAULT_PASS  = "qNlDwOgAbzZ7cVd1KKHecqPRvFjA";
 
-/* ==================== WINTER ARC TASK SET (English, fixed times) ==================== */
+/* ==================== WINTER PRIME TASK SET (English, fixed times) ==================== */
 var WA_TASKS = [
   { id:'wa-wake',     name:'Wake up 4:00 AM',                 note:'No snooze — day starts',      cat:'body', kind:'tick',    time:'04:00' },
   { id:'wa-fajr',     name:'Fajr',                            note:'Prayed',                        cat:'deen', kind:'tick',    time:null },
@@ -1000,19 +1037,106 @@ function renderWater(el){
 }
 
 /* ==================== render: settings ==================== */
+var editingTaskId=null; // null = form closed, 'new' = adding
 function renderSettings(){
   var html='';
   tasks.forEach(function(t){
-    html+='<div class="setrow"><div class="sl"><b>'+esc(t.name)+'</b><span>'+CAT_LABEL[t.cat]+(t.kind==='counter'?' · counter':'')+'</span></div>'
-      +'<input type="time" data-id="'+t.id+'" value="'+(t.time||'')+'"></div>';
+    var meta=(CAT_LABEL[t.cat]||t.cat)+(t.kind==='counter'?' · counter':'')
+      +(t.time?' · <span class="tt">'+fmtTime(t.time)+'</span>':'');
+    html+='<div class="trow"><div class="sl"><b>'+esc(t.name)+'</b><span>'+meta+'</span></div>'
+      +'<button class="ibtn edit" data-edit="'+t.id+'">EDIT</button>'
+      +'<button class="ibtn del" data-del="'+t.id+'">DELETE</button></div>';
   });
-  $('timeList').innerHTML=html;
-  $('timeList').querySelectorAll('input[type=time]').forEach(function(inp){
-    inp.addEventListener('change',function(){
-      var def=taskDef(inp.getAttribute('data-id'));
-      if(def){ def.time=inp.value||null; persistLocal(); pushProfile(); renderToday(); toast('Time updated'); }
+  $('taskList').innerHTML=html;
+  if(editingTaskId) renderTaskForm(editingTaskId); else $('taskForm').innerHTML='';
+  $('taskList').querySelectorAll('[data-edit]').forEach(function(b){
+    b.addEventListener('click',function(){ editingTaskId=b.getAttribute('data-edit'); renderSettings(); });
+  });
+  $('taskList').querySelectorAll('[data-del]').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(b.classList.contains('armed')){ deleteTask(b.getAttribute('data-del')); }
+      else{
+        b.classList.add('armed'); b.textContent='SURE?';
+        setTimeout(function(){ if(document.body.contains(b)){ b.classList.remove('armed'); b.textContent='DELETE'; } },3000);
+      }
     });
   });
+  $('addTaskBtn').onclick=function(){
+    editingTaskId='new'; renderSettings();
+    var f=$('taskForm'); if(f&&f.scrollIntoView) f.scrollIntoView({behavior:'smooth',block:'nearest'});
+  };
+  var rs=$('resetTasksBtn');
+  rs.onclick=function(){
+    if(rs.classList.contains('armed')){
+      tasks=clone(WA_TASKS); editingTaskId=null;
+      persistLocal(); pushProfile(); renderAll(); toast('Reset to Winter Prime defaults');
+    }else{
+      rs.classList.add('armed'); rs.textContent='Tap again to confirm reset';
+      setTimeout(function(){ rs.classList.remove('armed'); rs.textContent='Reset to Winter Prime defaults'; },3500);
+    }
+  };
+}
+function renderTaskForm(id){
+  var isNew=(id==='new');
+  var d=isNew?{name:'',note:'',cat:'body',kind:'tick',time:null,max:10,step:1,unit:''}:taskDef(id);
+  if(!d){ $('taskForm').innerHTML=''; return; }
+  var h='<div class="tform"><h4>'+(isNew?'ADD NEW TASK':'EDIT TASK')+'</h4><div class="fgrid">'
+    +'<div class="fld full"><label>TASK NAME</label><input id="tf-name" maxlength="60" value="'+esc(d.name)+'" placeholder="e.g. Read 20 pages"></div>'
+    +'<div class="fld full"><label>NOTE (optional)</label><input id="tf-note" maxlength="80" value="'+esc(d.note||'')+'" placeholder="Short hint under the name"></div>'
+    +'<div class="fld"><label>CATEGORY</label><select id="tf-cat">'
+    +['deen','body','work'].map(function(c){ return '<option value="'+c+'"'+(d.cat===c?' selected':'')+'>'+CAT_LABEL[c]+'</option>'; }).join('')
+    +'</select></div>'
+    +'<div class="fld"><label>TYPE</label><select id="tf-kind">'
+    +'<option value="tick"'+(d.kind==='tick'?' selected':'')+'>Tick (done / not done)</option>'
+    +'<option value="counter"'+(d.kind==='counter'?' selected':'')+'>Counter (number target)</option>'
+    +'</select></div>'
+    +'<div class="fld"><label>TIME (optional)</label><input type="time" id="tf-time" value="'+(d.time||'')+'"></div>'
+    +'<div class="fld"><label>&nbsp;</label><div style="font-size:11px;color:var(--dim);padding-top:10px">No time = ANYTIME section</div></div>'
+    +'<div class="fld cfield"><label>TARGET</label><input type="number" id="tf-max" min="1" step="any" value="'+(d.max||10)+'"></div>'
+    +'<div class="fld cfield"><label>STEP</label><input type="number" id="tf-step" min="0.1" step="any" value="'+(d.step||1)+'"></div>'
+    +'<div class="fld cfield"><label>UNIT (optional)</label><input id="tf-unit" maxlength="6" value="'+esc(d.unit||'')+'" placeholder="L, h, x"></div>'
+    +'</div>'
+    +'<div class="frow"><button class="savebtn" id="tf-save">'+(isNew?'ADD TASK':'SAVE CHANGES')+'</button>'
+    +'<button class="cancelbtn" id="tf-cancel">Cancel</button></div></div>';
+  $('taskForm').innerHTML=h;
+  function syncC(){
+    var isC=$('tf-kind').value==='counter';
+    Array.prototype.forEach.call(document.querySelectorAll('#taskForm .cfield'),function(el){ el.style.display=isC?'':'none'; });
+  }
+  $('tf-kind').addEventListener('change',syncC); syncC();
+  $('tf-cancel').addEventListener('click',function(){ editingTaskId=null; renderSettings(); });
+  $('tf-save').addEventListener('click',function(){ saveTaskForm(id); });
+}
+function saveTaskForm(id){
+  var isNew=(id==='new');
+  var name=$('tf-name').value.trim();
+  if(!name){ toast('Give the task a name'); $('tf-name').focus(); return; }
+  var kind=$('tf-kind').value;
+  var max=parseFloat($('tf-max').value), step=parseFloat($('tf-step').value);
+  if(kind==='counter'){
+    if(!(max>0)){ toast('Target must be more than 0'); return; }
+    if(!(step>0)) step=1;
+  }
+  var def=isNew?{id:'wa-c'+Date.now().toString(36)}:taskDef(id);
+  if(!def) return;
+  def.name=name;
+  def.note=$('tf-note').value.trim();
+  def.cat=$('tf-cat').value;
+  def.kind=kind;
+  def.time=$('tf-time').value||null;
+  if(kind==='counter'){ def.max=max; def.step=step; def.unit=$('tf-unit').value.trim(); }
+  else{ delete def.max; delete def.step; delete def.unit; }
+  if(isNew) tasks.push(def);
+  editingTaskId=null;
+  persistLocal(); pushProfile(); renderAll();
+  toast(isNew?'Task added':'Task updated');
+}
+function deleteTask(id){
+  if(tasks.length<=1){ toast('Keep at least one task'); return; }
+  tasks=tasks.filter(function(t){ return t.id!==id; });
+  if(editingTaskId===id) editingTaskId=null;
+  persistLocal(); pushProfile(); renderAll();
+  toast('Task removed');
 }
 
 /* ==================== nav / modal / boot ==================== */
