@@ -374,7 +374,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
         <div class="hero-stats">
           <div class="lbl">CURRENT STREAK</div>
           <div class="streak-big"><span id="streakNum">0</span> <span style="font-size:16px">days</span></div>
-          <div class="streak-sub" id="streakSub">Score 70+ keeps the fire alive</div>
+          <div class="streak-sub" id="streakSub">Score 60+ keeps the fire alive</div>
           <div class="mini-row">
             <div class="mini"><b id="doneCount">0/20</b><span>DONE TODAY</span></div>
             <div class="mini"><b id="cleanMini">0</b><span>CLEAN STREAK</span></div>
@@ -458,7 +458,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
           <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>LOCK</button>
       </div>
     </div>
-    <div class="ver">WINTER PRIME · v2.3 · 29 Oct 2026 – 28 Jan 2027</div>
+    <div class="ver">WINTER PRIME · v2.4 · 29 Oct 2026 – 28 Jan 2027</div>
   </section>
 
   <nav class="tabs"><div class="tabs-in">
@@ -735,10 +735,10 @@ function stepCounter(id,dir){
 function currentStreak(){
   var n=0, d=new Date(), ds=dstr(d);
   var r=days[ds];
-  if(!r||r.score<70){ d.setDate(d.getDate()-1); }
+  if(!r||r.score<60){ d.setDate(d.getDate()-1); }
   for(;;){
     var rec=days[dstr(d)];
-    if(rec&&rec.score>=70){ n++; d.setDate(d.getDate()-1); } else break;
+    if(rec&&rec.score>=60){ n++; d.setDate(d.getDate()-1); } else break;
   }
   return n;
 }
@@ -748,7 +748,7 @@ function bestStreak(){
     var ds=addDays(ARC_START,i);
     if(ds>todayStr()) break;
     var r=days[ds];
-    if(r&&r.score>=70){ n++; if(n>best) best=n; } else n=0;
+    if(r&&r.score>=60){ n++; if(n>best) best=n; } else n=0;
   }
   return best;
 }
