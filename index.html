@@ -387,7 +387,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
 
   <!-- JOURNEY -->
   <section class="view" id="view-journey">
-    <div class="sec"><h2>Journey</h2><span class="sub" id="journeySub">92 days · Oct → Dec 2026</span></div>
+    <div class="sec"><h2>Journey</h2><span class="sub" id="journeySub">92 days · Oct 2026 → Jan 2027</span></div>
     <div id="journeyGrid"></div>
     <div class="jlegend">
       <span><i style="background:rgba(139,152,184,.25)"></i>—</span>
@@ -458,7 +458,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
           <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>LOCK</button>
       </div>
     </div>
-    <div class="ver">WINTER PRIME · v2.0 · 1 Oct – 31 Dec 2026</div>
+    <div class="ver">WINTER PRIME · v2.1 · 29 Oct 2026 – 28 Jan 2027</div>
   </section>
 
   <nav class="tabs"><div class="tabs-in">
@@ -485,7 +485,7 @@ const SUPABASE_CONFIG = {
   anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNidXFrcW9idGNoZHFqd3Brb3R0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA1NTczNzcsImV4cCI6MjEwNjEzMzM3N30.xsTJD1-w_ETABqfAh6eN7XlVXBmd6svFqMgxn_v7fvo"
 };
 const SB_CDN = 'https://esm.sh/@supabase/supabase-js@2';
-const ARC_START = '2026-10-01', ARC_END = '2026-12-31', ARC_DAYS = 92;
+const ARC_START = '2026-10-29', ARC_END = '2027-01-28', ARC_DAYS = 92;
 
 /* Secret-phrase gate: ONLY SHA-256 hashes are stored here. No raw phrases. */
 const PHRASE_HASHES = [
@@ -554,16 +554,21 @@ var tasks=[];
 var days={};
 var online=(typeof navigator!=='undefined'&&'onLine' in navigator)?navigator.onLine:true;
 var curView='today';
-var popId=null;
+var popId=null, curPop=null, suppressAnim=false;
 
 function ck(base){ return uid ? 'wa.'+uid+'.'+base : 'wa.local.'+base; }
 function persistLocal(){
   save(ck('tasks.v1'),tasks);
-  save(ck('days.v1'),days);
+  save(ck('days.v2'),days);
 }
+/* Local task edits are authoritative until they have synced up: while this
+   flag is set, pullCloud must NOT overwrite local task defs with cloud ones. */
+function markTasksDirty(){ save(ck('tasksDirty.v1'),'1'); }
+function tasksDirty(){ return load(ck('tasksDirty.v1'),null)==='1'; }
+function clearTasksDirty(){ save(ck('tasksDirty.v1'),''); }
 function readCache(){
   tasks = load(ck('tasks.v1'),null) || clone(WA_TASKS);
-  days  = load(ck('days.v1'),null)  || {};
+  days  = load(ck('days.v2'),null)  || {};
   if(!Array.isArray(tasks)||!tasks.length) tasks=clone(WA_TASKS);
   if(!days||typeof days!=='object') days={};
   persistLocal();
@@ -599,7 +604,7 @@ function sbUpsert(table,row){
     return s.from(table).upsert(row).then(function(res){ if(res.error) throw res.error; return res; });
   });
 }
-function pushProfile(){ cloudWrite(function(){ return sbUpsert('profiles',{user_id:uid,task_defs:tasks,work_defs:[]}); }); }
+function pushProfile(){ cloudWrite(function(){ return sbUpsert('profiles',{user_id:uid,task_defs:tasks,work_defs:[]}).then(function(){ clearTasksDirty(); }); }); }
 function pushDay(ds){
   cloudWrite(function(){
     var r=days[ds]; if(!r) return Promise.resolve();
@@ -613,18 +618,25 @@ async function pullCloud(){
     function mustOk(res){ if(res.error) throw res.error; return res.data; }
     var prow=mustOk(await s.from('profiles').select('task_defs').eq('user_id',uid).maybeSingle());
     if(prow){
-      if(Array.isArray(prow.task_defs)&&prow.task_defs.length) tasks=prow.task_defs;
+      if(tasksDirty()){
+        // local edits not yet synced — local wins, push them up instead
+        mustOk(await s.from('profiles').upsert({user_id:uid,task_defs:tasks,work_defs:[]}));
+        clearTasksDirty();
+      }else if(Array.isArray(prow.task_defs)&&prow.task_defs.length) tasks=prow.task_defs;
     }else{
       mustOk(await s.from('profiles').upsert({user_id:uid,task_defs:tasks,work_defs:[]}));
+      clearTasksDirty();
     }
     var cloudDays=mustOk(await s.from('days').select('date,tasks,score').eq('user_id',uid));
     var seen={};
     (cloudDays||[]).forEach(function(row){
+      if(row.date<ARC_START||row.date>ARC_END) return; // only the current arc syncs in
       days[row.date]={date:row.date,tasks:row.tasks||[],score:row.score||0};
       seen[row.date]=true;
     });
     var ups=[];
     Object.keys(days).forEach(function(ds){
+      if(ds<ARC_START||ds>ARC_END) return;
       if(!seen[ds]) ups.push(sbUpsert('days',{user_id:uid,date:ds,tasks:days[ds].tasks,score:days[ds].score}));
     });
     await Promise.all(ups);
@@ -676,6 +688,26 @@ function calcScore(rec){
   });
   return Math.round(sum/rec.tasks.length*100);
 }
+/* ==================== soft sounds (WebAudio, no files) ==================== */
+var actx=null;
+function tone(f,delay,dur,vol){
+  try{
+    if(!actx){ var AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; actx=new AC(); }
+    if(actx.state==='suspended') actx.resume();
+    var t=actx.currentTime+(delay||0);
+    var o=actx.createOscillator(), g=actx.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(t); o.stop(t+dur+0.05);
+  }catch(e){}
+}
+function sndTick(){ tone(740,0,0.12,0.08); tone(1180,0.03,0.10,0.04); }
+function sndUntick(){ tone(500,0,0.09,0.04); }
+function sndFull(){ tone(659,0,0.18,0.07); tone(880,0.09,0.18,0.07); tone(1318,0.18,0.32,0.06); }
+
 function saveDay(ds){
   var rec=getDay(ds);
   rec.score=calcScore(rec);
@@ -684,18 +716,23 @@ function saveDay(ds){
 function toggleTick(id){
   var ds=todayStr(), rec=getDay(ds);
   var e=rec.tasks.find(function(t){ return t.id===id; });
-  if(e) e.done=!e.done;
-  popId=id; saveDay(ds); renderToday();
+  if(!e) return;
+  e.done=!e.done;
+  popId=id; suppressAnim=true; saveDay(ds); renderToday();
+  if(e.done){ if(rec.score>=100) sndFull(); else sndTick(); } else sndUntick();
 }
 function stepCounter(id,dir){
   var ds=todayStr(), rec=getDay(ds), def=taskDef(id);
   var e=rec.tasks.find(function(t){ return t.id===id; });
   if(!e||!def) return;
+  var wasDone=e.done;
   var nv=(+e.val||0)+dir*def.step;
   nv=Math.round(nv*100)/100;
   if(nv<0) nv=0; if(nv>def.max) nv=def.max;
   e.val=nv; e.done=nv>=def.max;
-  saveDay(ds); renderToday();
+  popId=id; suppressAnim=true; saveDay(ds); renderToday();
+  if(e.done&&!wasDone){ if(rec.score>=100) sndFull(); else sndTick(); }
+  else if(!e.done&&wasDone) sndUntick();
 }
 function currentStreak(){
   var n=0, d=new Date(), ds=dstr(d);
@@ -825,7 +862,7 @@ function taskRow(def,entry,idx){
   var timeHtml = def.time
     ? '<div class="ttime">'+fmtTime(def.time)+'</div>'
     : '<div class="ttime" style="color:var(--dim)"><small>ANY<br>TIME</small></div>';
-  return '<div class="task '+doneCls+(popId===def.id?' pop':'')+'" data-kind="'+def.kind+'" data-id="'+def.id+'" style="animation-delay:'+Math.min(idx*35,420)+'ms">'
+  return '<div class="task '+doneCls+(curPop===def.id?' pop':'')+'" data-kind="'+def.kind+'" data-id="'+def.id+'" style="'+(suppressAnim?'animation:none':'animation-delay:'+Math.min(idx*35,420)+'ms')+'">'
     +timeHtml
     +'<div class="tmain"><div class="tname">'+esc(def.name)+'</div>'
     +(def.note?'<div class="tnote">'+esc(def.note)+'</div>':'')
@@ -834,7 +871,7 @@ function taskRow(def,entry,idx){
 }
 function renderToday(){
   var ds=todayStr(), rec=getDay(ds);
-  popId=null;
+  curPop=popId; popId=null;
   // hero
   var C=326.7, off=(C*(1-rec.score/100)).toFixed(1);
   $('scoreArc').style.strokeDashoffset=off;
@@ -874,6 +911,7 @@ function renderToday(){
   }
   $('timeline').innerHTML=html;
   bindTaskEvents($('timeline'));
+  suppressAnim=false;
 }
 function bindTaskEvents(root){
   root.querySelectorAll('.task').forEach(function(el){
@@ -900,7 +938,7 @@ function scoreClass(s){
   return 's4';
 }
 function renderJourney(){
-  var months=[['October 2026','2026-10',31],['November 2026','2026-11',30],['December 2026','2026-12',31]];
+  var months=[['October 2026','2026-10',31],['November 2026','2026-11',30],['December 2026','2026-12',31],['January 2027','2027-01',31]];
   var today=todayStr(), html='';
   months.forEach(function(m){
     html+='<div class="jmonth"><h3>'+m[0]+'</h3><div class="jgrid">';
@@ -1050,7 +1088,7 @@ function renderSettings(){
   $('taskList').innerHTML=html;
   if(editingTaskId) renderTaskForm(editingTaskId); else $('taskForm').innerHTML='';
   $('taskList').querySelectorAll('[data-edit]').forEach(function(b){
-    b.addEventListener('click',function(){ editingTaskId=b.getAttribute('data-edit'); renderSettings(); });
+    b.addEventListener('click',function(){ editingTaskId=b.getAttribute('data-edit'); renderSettings(); var f=$('taskForm'); if(f&&f.scrollIntoView) f.scrollIntoView({behavior:'smooth',block:'nearest'}); });
   });
   $('taskList').querySelectorAll('[data-del]').forEach(function(b){
     b.addEventListener('click',function(){
@@ -1069,7 +1107,7 @@ function renderSettings(){
   rs.onclick=function(){
     if(rs.classList.contains('armed')){
       tasks=clone(WA_TASKS); editingTaskId=null;
-      persistLocal(); pushProfile(); renderAll(); toast('Reset to Winter Prime defaults');
+      markTasksDirty(); persistLocal(); pushProfile(); renderAll(); toast('Reset to Winter Prime defaults');
     }else{
       rs.classList.add('armed'); rs.textContent='Tap again to confirm reset';
       setTimeout(function(){ rs.classList.remove('armed'); rs.textContent='Reset to Winter Prime defaults'; },3500);
@@ -1128,14 +1166,14 @@ function saveTaskForm(id){
   else{ delete def.max; delete def.step; delete def.unit; }
   if(isNew) tasks.push(def);
   editingTaskId=null;
-  persistLocal(); pushProfile(); renderAll();
+  markTasksDirty(); persistLocal(); pushProfile(); renderAll();
   toast(isNew?'Task added':'Task updated');
 }
 function deleteTask(id){
   if(tasks.length<=1){ toast('Keep at least one task'); return; }
   tasks=tasks.filter(function(t){ return t.id!==id; });
   if(editingTaskId===id) editingTaskId=null;
-  persistLocal(); pushProfile(); renderAll();
+  markTasksDirty(); persistLocal(); pushProfile(); renderAll();
   toast('Task removed');
 }
 
