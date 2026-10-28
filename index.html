@@ -423,7 +423,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
     </div>
     <div class="card">
       <h3>Hydration</h3>
-      <p class="csub">Water intake · last 14 days (liters)</p>
+      <p class="csub">Water intake · last 14 days (glasses)</p>
       <div class="wbars" id="wBars"></div>
       <div class="wlabels" id="wLabels"></div>
     </div>
@@ -458,7 +458,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-
           <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>LOCK</button>
       </div>
     </div>
-    <div class="ver">WINTER PRIME · v2.1 · 29 Oct 2026 – 28 Jan 2027</div>
+    <div class="ver">WINTER PRIME · v2.2 · 29 Oct 2026 – 28 Jan 2027</div>
   </section>
 
   <nav class="tabs"><div class="tabs-in">
@@ -498,26 +498,25 @@ const VAULT_PASS  = "qNlDwOgAbzZ7cVd1KKHecqPRvFjA";
 
 /* ==================== WINTER PRIME TASK SET (English, fixed times) ==================== */
 var WA_TASKS = [
-  { id:'wa-wake',     name:'Wake up 4:00 AM',                 note:'No snooze — day starts',      cat:'body', kind:'tick',    time:'04:00' },
-  { id:'wa-fajr',     name:'Fajr',                            note:'Prayed',                        cat:'deen', kind:'tick',    time:null },
-  { id:'wa-adhkar-am',name:'Morning Adhkar – Astaghfar 100x', note:'After Fajr',                    cat:'deen', kind:'counter', max:100, step:10, time:'04:30' },
-  { id:'wa-run',      name:'4 KM outdoor running',            note:'Outside, every day',            cat:'body', kind:'tick',    time:'05:00' },
-  { id:'wa-exercise', name:'Exercise 30 min',                 note:'Strength / bodyweight',         cat:'body', kind:'tick',    time:'05:30' },
-  { id:'wa-shower',   name:'Cold shower',                     note:'Full cold, daily',              cat:'body', kind:'tick',    time:'06:00' },
-  { id:'wa-quran',    name:'Quran 30 min',                    note:'Recitation + reflection',       cat:'deen', kind:'tick',    time:'06:15' },
-  { id:'wa-zuhr',     name:'Zuhr',                            note:'Prayed',                        cat:'deen', kind:'tick',    time:null },
-  { id:'wa-asr',      name:'Asr',                             note:'Prayed',                        cat:'deen', kind:'tick',    time:null },
-  { id:'wa-maghrib',  name:'Maghrib',                         note:'Prayed',                        cat:'deen', kind:'tick',    time:null },
-  { id:'wa-adhkar-pm',name:'Evening Adhkar – Durood 100x',   note:'After Maghrib',                 cat:'deen', kind:'counter', max:100, step:10, time:'18:30' },
-  { id:'wa-isha',     name:'Isha',                            note:'Prayed',                        cat:'deen', kind:'tick',    time:null },
-  { id:'wa-water',    name:'Water 3L',                        note:'Track every glass',             cat:'body', kind:'counter', max:3, step:0.25, unit:'L', time:null },
-  { id:'wa-diet',     name:'Diet – No junk + 2-2-2',          note:'Clean eating all day',          cat:'body', kind:'tick',    time:null },
-  { id:'wa-clean',    name:'Stay clean',                      note:'One day at a time',             cat:'body', kind:'tick',    time:null },
-  { id:'wa-focus',    name:'Focus work 8 hours',              note:'Content + deep work',           cat:'work', kind:'counter', max:8, step:0.5, unit:'h', time:null },
-  { id:'wa-social',   name:'Social media max 1 hour',         note:'Stayed within the limit',       cat:'work', kind:'tick',    time:null },
-  { id:'wa-parents',  name:'Kind to parents',                 note:'Respect, obey, serve',          cat:'work', kind:'tick',    time:null },
-  { id:'wa-review',   name:'Day review + plan tomorrow',      note:'Before sleep',                  cat:'work', kind:'tick',    time:'21:30' },
-  { id:'wa-sleep',    name:'Sleep by 10:00 PM',               note:'Lights out',                    cat:'body', kind:'tick',    time:'22:00' }
+  { id:'wa-clean',    name:'Clean day - stayed away from the habit today', note:'Tick only on a truly clean day', cat:'body', kind:'tick', time:null },
+  { id:'wp-fajr',     name:'Fajr prayer',                    note:'5:45 – 6:00 AM',                  cat:'deen', kind:'tick',    time:'05:45' },
+  { id:'wp-quran',    name:'Quran recitation',               note:'6:15 – 6:45 AM · 30 minutes',     cat:'deen', kind:'tick',    time:'06:15' },
+  { id:'wp-walk',     name:'Walk + breakfast + family time', note:'6:45 – 8:30 AM',                  cat:'body', kind:'tick',    time:'06:45' },
+  { id:'wp-work1',    name:'Focus work Block 1',             note:'8:30 AM – 1:30 PM',               cat:'work', kind:'tick',    time:'08:30' },
+  { id:'wp-zuhr',     name:'Zuhr prayer',                    note:'1:30 – 1:50 PM',                  cat:'deen', kind:'tick',    time:'13:30' },
+  { id:'wp-work2',    name:'Focus work Block 2',             note:'1:50 – 3:00 PM',                  cat:'work', kind:'tick',    time:'13:50' },
+  { id:'wp-lunch',    name:'Lunch',                          note:'3:00 – 3:20 PM · 20 minutes only', cat:'body', kind:'tick',   time:'15:00' },
+  { id:'wp-work3',    name:'Focus work Block 3',             note:'3:20 – 4:00 PM',                  cat:'work', kind:'tick',    time:'15:20' },
+  { id:'wp-asr',      name:'Asr prayer',                     note:'4:00 – 4:20 PM',                  cat:'deen', kind:'tick',    time:'16:00' },
+  { id:'wp-work4',    name:'Focus work Block 4',             note:'4:20 – 5:24 PM',                  cat:'work', kind:'tick',    time:'16:20' },
+  { id:'wp-maghrib',  name:'Maghrib prayer',                 note:'5:24 – 5:44 PM',                  cat:'deen', kind:'tick',    time:'17:24' },
+  { id:'wp-work5',    name:'Focus work Block 5',             note:'5:44 – 7:00 PM',                  cat:'work', kind:'tick',    time:'17:44' },
+  { id:'wp-isha',     name:'Isha prayer',                    note:'7:00 – 7:20 PM',                  cat:'deen', kind:'tick',    time:'19:00' },
+  { id:'wp-work6',    name:'Focus work Block 6',             note:'7:20 – 9:00 PM',                  cat:'work', kind:'tick',    time:'19:20' },
+  { id:'wp-live',     name:'Live session / class',           note:'9:00 – 10:00 PM',                 cat:'work', kind:'tick',    time:'21:00' },
+  { id:'wp-extra',    name:'Optional extra work',            note:'10:00 – 11:00 PM · never after 11:00 PM', cat:'work', kind:'tick', time:'22:00' },
+  { id:'wp-sleep',    name:'Sleep',                          note:'10:45 PM – 5:45 AM · 7 hours · latest 11:00 PM', cat:'body', kind:'tick', time:'22:45' },
+  { id:'wa-water',    name:'Drink 5 glasses of water daily', note:'Excluding water drunk during meals', cat:'body', kind:'counter', max:5, step:1, unit:'glass', time:null }
 ];
 var CAT_LABEL = { deen:'DEEN', body:'BODY', work:'WORK' };
 
@@ -557,7 +556,7 @@ var popId=null, curPop=null, suppressAnim=false;
 
 function ck(base){ return uid ? 'wa.'+uid+'.'+base : 'wa.local.'+base; }
 function persistLocal(){
-  save(ck('tasks.v1'),tasks);
+  save(ck('tasks.v2'),tasks);
   save(ck('days.v2'),days);
 }
 /* Local task edits are authoritative until they have synced up: while this
@@ -566,7 +565,7 @@ function markTasksDirty(){ save(ck('tasksDirty.v1'),'1'); }
 function tasksDirty(){ return load(ck('tasksDirty.v1'),null)==='1'; }
 function clearTasksDirty(){ save(ck('tasksDirty.v1'),''); }
 function readCache(){
-  tasks = load(ck('tasks.v1'),null) || clone(WA_TASKS);
+  tasks = load(ck('tasks.v2'),null) || clone(WA_TASKS);
   days  = load(ck('days.v2'),null)  || {};
   if(!Array.isArray(tasks)||!tasks.length) tasks=clone(WA_TASKS);
   if(!days||typeof days!=='object') days={};
@@ -815,6 +814,12 @@ async function enterApp(){
     var user=await vaultAuth();
     uid=user.id;
     readCache();            // re-read under the vault uid namespace
+    // one-time schedule replacement (2026-10-28): all old tasks out, new set in —
+    // marked dirty so pullCloud pushes this set UP instead of pulling the old one down
+    if(load('wa.taskSet.v1','')!=='2026-10-28'){
+      tasks=clone(WA_TASKS); markTasksDirty();
+      save('wa.taskSet.v1','2026-10-28'); persistLocal();
+    }
     renderAll();
     await pullCloud();
     renderAll();
@@ -1061,13 +1066,14 @@ function renderRings(el){
   });
 }
 function renderWater(el){
+  var wdef=taskDef('wa-water'), wmax=(wdef&&wdef.max)?wdef.max:3;
   var last=el.slice(-14);
   var html='', labels='';
   last.forEach(function(ds){
     var r=days[ds], v=0;
     if(r){ var e=r.tasks.find(function(t){ return t.id==='wa-water'; }); if(e) v=+e.val||0; }
-    var h=Math.max(Math.round(v/3*92),4);
-    html+='<div class="wbar'+(v>=3?' full':'')+'" style="height:'+h+'px" title="'+ds+': '+v+'L"></div>';
+    var h=Math.max(Math.round(v/wmax*92),4);
+    html+='<div class="wbar'+(v>=wmax?' full':'')+'" style="height:'+h+'px" title="'+ds+': '+v+' glasses"></div>';
     labels+='<span>'+parseD(ds).getDate()+'</span>';
   });
   $('wBars').innerHTML=html; $('wLabels').innerHTML=labels;
